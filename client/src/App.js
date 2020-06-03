@@ -1,23 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './App.scss';
-import axios from 'axios';
+import MainRoutes from './routes/mainRoutes';
+import { Link } from 'react-router-dom';
 
-const App = props => {
-
-  const [test, setTest] = useState('');
-
-  const api = process.env.REACT_APP_API_URL;
-
-  useEffect(() => {
-    axios.get(`${api}/test`)
-      .then(res => setTest(res.data))
-  }, [api])
-  
+const App = props => {  
   return (
     <div className="App">
-      {test}
+      <Link to='/curriculum'>Curriculum</Link>
+      <Link to='/home'>Home</Link>
+      <MainRoutes/>
     </div>
   );
-}
+};
 
 export default App;
