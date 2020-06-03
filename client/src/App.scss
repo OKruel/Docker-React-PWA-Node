@@ -1,0 +1,8 @@
+@import './sass/variables';
+@import './sass/mixins';
+
+.App {
+    @include spaceAvailable;
+    background-color: $color-black;
+}
+
