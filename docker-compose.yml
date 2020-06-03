@@ -17,6 +17,9 @@ services:
       - ./api:/app
   nginx:
     restart: always
+    depends_on: 
+      - api
+      - web
     build:
       context: ./nginx
       dockerfile: Dockerfile.dev
