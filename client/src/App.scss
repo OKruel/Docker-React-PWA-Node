@@ -4,5 +4,6 @@
 .App {
     @include spaceAvailable;
     background-color: $color-black;
+    color: $color-white;
 }
 
