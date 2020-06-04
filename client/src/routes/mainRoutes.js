@@ -8,8 +8,8 @@ const MainRoutes = props => {
 
     let routes = (
         <Switch>
-            <Route path='/curriculum' exact component={Curriculum}/>
             <Route path='/home' exact component={HomePage}/>
+            <Route path='/curriculum' exact component={Curriculum}/>
             <Redirect from='/' to='/home'/>
         </Switch>
     );
