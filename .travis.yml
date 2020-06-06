@@ -1,0 +1,36 @@
+sudo: required
+language: generic
+
+services:
+  - docker
+
+before_install:
+  - docker build -t olavokruel/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true olavokruel/react-test npm run test
+
+after_success:
+  - docker build -t olavokruel/ok-client ./client
+  - docker build -t olavokruel/ok-nginx ./nginx
+  - docker build -t olavokruel/ok-server ./api
+  - docker build -t olavokruel/ok-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push olavokruel/ok-client
+  - docker push olavokruel/ok-nginx
+  - docker push olavokruel/ok-server
+  - docker push olavokruel/ok-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: us-west-1
+  app: multi-docker
+  env: MultiDocker-env
+  bucket_name: elasticbeanstalk-us-west-1-306476627547
+  bucket_path: docker-multi
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
